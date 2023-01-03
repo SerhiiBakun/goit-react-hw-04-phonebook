@@ -1,19 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { Container } from './App.styled';
 import { ContactForm } from '../ContactForm/ContactForm';
 import { Filter } from '../Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
+import { useLocalStorage } from 'hooks/useLocalStorage';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    () => JSON.parse(window.localStorage.getItem('contacts')) ?? []
-  );
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   const handleChange = e => {
     switch (e.target.name) {
@@ -39,6 +34,7 @@ export const App = () => {
   };
 
   const normalizedFilter = filter.toLowerCase();
+
   const filteredContacts =
     contacts.length > 0
       ? contacts.filter(contact =>
