@@ -21,7 +21,11 @@ export const App = () => {
   };
 
   const handleSubmit = (name, number) => {
-    if (contacts.find(contact => contact.name === name)) {
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase()
+      )
+    ) {
       return window.alert(`${name} is already in contacts`);
     }
     setContacts(prevState => [...prevState, { id: nanoid(), name, number }]);
